@@ -1,0 +1,623 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MAMDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CategoryName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="DamageStocks" Relationship="Self.FK_DamageStock_Category" FromRole="Category" ToRole="DamageStock" />
+    <NavigationProperty Name="Inventories" Relationship="MAMDBModel.FK_Inventory_Category" FromRole="Category" ToRole="Inventory" />
+    <NavigationProperty Name="RequisitionInfoes" Relationship="MAMDBModel.FK_RequisitionInfo_Category" FromRole="Category" ToRole="RequisitionInfo" />
+    <NavigationProperty Name="Quotations" Relationship="MAMDBModel.FK_Quotation_Quotation" FromRole="Category" ToRole="Quotation" />
+  </EntityType>
+  <EntityType Name="Company">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CompanyName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="DamageStocks" Relationship="Self.FK_DamageStock_Company" FromRole="Company" ToRole="DamageStock" />
+    <NavigationProperty Name="StockOuts" Relationship="MAMDBModel.FK_StockOut_Company" FromRole="Company" ToRole="StockOut" />
+    <NavigationProperty Name="Inventories" Relationship="MAMDBModel.FK_Inventory_Company" FromRole="Company" ToRole="Inventory" />
+    <NavigationProperty Name="RequisitionInfoes" Relationship="MAMDBModel.FK_RequisitionInfo_Company" FromRole="Company" ToRole="RequisitionInfo" />
+    <NavigationProperty Name="AssignedUsers" Relationship="MAMDBModel.FK_AssignedUser_Company" FromRole="Company" ToRole="AssignedUser" />
+  </EntityType>
+  <EntityType Name="DamageStock">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CompanyId" Type="Int32" />
+    <Property Name="CategoryId" Type="Int32" />
+    <Property Name="InventoryId" Type="Int32" />
+    <Property Name="Qty" Type="Int32" />
+    <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Category" Relationship="Self.FK_DamageStock_Category" FromRole="DamageStock" ToRole="Category" />
+    <NavigationProperty Name="Company" Relationship="Self.FK_DamageStock_Company" FromRole="DamageStock" ToRole="Company" />
+  </EntityType>
+  <EntityType Name="Division">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DivisionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Sections" Relationship="MAMDBModel.FK_Section_Division" FromRole="Division" ToRole="Section" />
+    <NavigationProperty Name="RequisitionInfoes" Relationship="MAMDBModel.FK_RequisitionInfo_Division" FromRole="Division" ToRole="RequisitionInfo" />
+    <NavigationProperty Name="AssignedUsers" Relationship="MAMDBModel.FK_AssignedUser_Division" FromRole="Division" ToRole="AssignedUser" />
+  </EntityType>
+  <Association Name="FK_DamageStock_Category">
+    <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+    <End Role="DamageStock" Type="Self.DamageStock" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DamageStock">
+        <PropertyRef Name="CategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DamageStock_Company">
+    <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+    <End Role="DamageStock" Type="Self.DamageStock" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DamageStock">
+        <PropertyRef Name="CompanyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MAMDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Categories" EntityType="Self.Category" />
+    <EntitySet Name="Companies" EntityType="Self.Company" />
+    <EntitySet Name="DamageStocks" EntityType="Self.DamageStock" />
+    <EntitySet Name="Divisions" EntityType="Self.Division" />
+    <AssociationSet Name="FK_DamageStock_Category" Association="Self.FK_DamageStock_Category">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="DamageStock" EntitySet="DamageStocks" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DamageStock_Company" Association="Self.FK_DamageStock_Company">
+      <End Role="Company" EntitySet="Companies" />
+      <End Role="DamageStock" EntitySet="DamageStocks" />
+    </AssociationSet>
+    <EntitySet Name="UserInfoes" EntityType="MAMDBModel.UserInfo" />
+    <EntitySet Name="UserRoles" EntityType="MAMDBModel.UserRole" />
+    <AssociationSet Name="FK_UserRole_UserInfo" Association="MAMDBModel.FK_UserRole_UserInfo">
+      <End Role="UserInfo" EntitySet="UserInfoes" />
+      <End Role="UserRole" EntitySet="UserRoles" />
+    </AssociationSet>
+    <EntitySet Name="Sections" EntityType="MAMDBModel.Section" />
+    <AssociationSet Name="FK_Section_Division" Association="MAMDBModel.FK_Section_Division">
+      <End Role="Division" EntitySet="Divisions" />
+      <End Role="Section" EntitySet="Sections" />
+    </AssociationSet>
+    <EntitySet Name="StockOuts" EntityType="MAMDBModel.StockOut" />
+    <AssociationSet Name="FK_StockOut_Company" Association="MAMDBModel.FK_StockOut_Company">
+      <End Role="Company" EntitySet="Companies" />
+      <End Role="StockOut" EntitySet="StockOuts" />
+    </AssociationSet>
+    <EntitySet Name="CSQuotations" EntityType="MAMDBModel.CSQuotation" />
+    <EntitySet Name="Inventories" EntityType="MAMDBModel.Inventory" />
+    <EntitySet Name="Suppliers" EntityType="MAMDBModel.Supplier" />
+    <AssociationSet Name="FK_Inventory_Category" Association="MAMDBModel.FK_Inventory_Category">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="Inventory" EntitySet="Inventories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Inventory_Company" Association="MAMDBModel.FK_Inventory_Company">
+      <End Role="Company" EntitySet="Companies" />
+      <End Role="Inventory" EntitySet="Inventories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StockOut_Inventory" Association="MAMDBModel.FK_StockOut_Inventory">
+      <End Role="Inventory" EntitySet="Inventories" />
+      <End Role="StockOut" EntitySet="StockOuts" />
+    </AssociationSet>
+    <EntitySet Name="RequisitionInfoes" EntityType="MAMDBModel.RequisitionInfo" />
+    <AssociationSet Name="FK_RequisitionInfo_Category" Association="MAMDBModel.FK_RequisitionInfo_Category">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="RequisitionInfo" EntitySet="RequisitionInfoes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RequisitionInfo_Company" Association="MAMDBModel.FK_RequisitionInfo_Company">
+      <End Role="Company" EntitySet="Companies" />
+      <End Role="RequisitionInfo" EntitySet="RequisitionInfoes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RequisitionInfo_Division" Association="MAMDBModel.FK_RequisitionInfo_Division">
+      <End Role="Division" EntitySet="Divisions" />
+      <End Role="RequisitionInfo" EntitySet="RequisitionInfoes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Inventory_RequisitionInfo" Association="MAMDBModel.FK_Inventory_RequisitionInfo">
+      <End Role="RequisitionInfo" EntitySet="RequisitionInfoes" />
+      <End Role="Inventory" EntitySet="Inventories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RequisitionInfo_Section" Association="MAMDBModel.FK_RequisitionInfo_Section">
+      <End Role="Section" EntitySet="Sections" />
+      <End Role="RequisitionInfo" EntitySet="RequisitionInfoes" />
+    </AssociationSet>
+    <EntitySet Name="AssignedUsers" EntityType="MAMDBModel.AssignedUser" />
+    <AssociationSet Name="FK_AssignedUser_AssignedUser" Association="MAMDBModel.FK_AssignedUser_AssignedUser">
+      <End Role="AssignedUser" EntitySet="AssignedUsers" />
+      <End Role="AssignedUser1" EntitySet="AssignedUsers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AssignedUser_Company" Association="MAMDBModel.FK_AssignedUser_Company">
+      <End Role="Company" EntitySet="Companies" />
+      <End Role="AssignedUser" EntitySet="AssignedUsers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AssignedUser_Division" Association="MAMDBModel.FK_AssignedUser_Division">
+      <End Role="Division" EntitySet="Divisions" />
+      <End Role="AssignedUser" EntitySet="AssignedUsers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AssignedUser_Section" Association="MAMDBModel.FK_AssignedUser_Section">
+      <End Role="Section" EntitySet="Sections" />
+      <End Role="AssignedUser" EntitySet="AssignedUsers" />
+    </AssociationSet>
+    <EntitySet Name="PurchInvoices" EntityType="MAMDBModel.PurchInvoice" />
+    <EntitySet Name="PurchTables" EntityType="MAMDBModel.PurchTable" />
+    <AssociationSet Name="FK_PurchTable_CSQuotation" Association="MAMDBModel.FK_PurchTable_CSQuotation">
+      <End Role="CSQuotation" EntitySet="CSQuotations" />
+      <End Role="PurchTable" EntitySet="PurchTables" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PurchInvoice_PurchInvoice" Association="MAMDBModel.FK_PurchInvoice_PurchInvoice">
+      <End Role="PurchInvoice" EntitySet="PurchInvoices" />
+      <End Role="PurchInvoice1" EntitySet="PurchInvoices" />
+    </AssociationSet>
+    <EntitySet Name="Quotations" EntityType="MAMDBModel.Quotation" />
+    <AssociationSet Name="FK_Quotation_Quotation" Association="MAMDBModel.FK_Quotation_Quotation">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="Quotation" EntitySet="Quotations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CSQuotation_Quotation" Association="MAMDBModel.FK_CSQuotation_Quotation">
+      <End Role="Quotation" EntitySet="Quotations" />
+      <End Role="CSQuotation" EntitySet="CSQuotations" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="UserInfo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="UserRoles" Relationship="MAMDBModel.FK_UserRole_UserInfo" FromRole="UserInfo" ToRole="UserRole" />
+  </EntityType>
+  <EntityType Name="UserRole">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="UserInfo" Relationship="MAMDBModel.FK_UserRole_UserInfo" FromRole="UserRole" ToRole="UserInfo" />
+  </EntityType>
+  <Association Name="FK_UserRole_UserInfo">
+    <End Type="MAMDBModel.UserInfo" Role="UserInfo" Multiplicity="0..1" />
+    <End Type="MAMDBModel.UserRole" Role="UserRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserInfo">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserRole">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Section">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SectionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DivisionID" Type="Int32" />
+    <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Division" Relationship="MAMDBModel.FK_Section_Division" FromRole="Section" ToRole="Division" />
+    <NavigationProperty Name="RequisitionInfoes" Relationship="MAMDBModel.FK_RequisitionInfo_Section" FromRole="Section" ToRole="RequisitionInfo" />
+    <NavigationProperty Name="AssignedUsers" Relationship="MAMDBModel.FK_AssignedUser_Section" FromRole="Section" ToRole="AssignedUser" />
+  </EntityType>
+  <Association Name="FK_Section_Division">
+    <End Type="MAMDBModel.Division" Role="Division" Multiplicity="0..1" />
+    <End Type="MAMDBModel.Section" Role="Section" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Division">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Section">
+        <PropertyRef Name="DivisionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="StockOut">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CompanyId" Type="Int32" />
+    <Property Name="CategoryId" Type="Int32" />
+    <Property Name="InventoryId" Type="Int32" />
+    <Property Name="DisivionId" Type="Int32" />
+    <Property Name="SectionId" Type="Int32" />
+    <Property Name="Qty" Type="Int32" />
+    <Property Name="OutDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Company" Relationship="MAMDBModel.FK_StockOut_Company" FromRole="StockOut" ToRole="Company" />
+    <NavigationProperty Name="Inventory" Relationship="MAMDBModel.FK_StockOut_Inventory" FromRole="StockOut" ToRole="Inventory" />
+  </EntityType>
+  <Association Name="FK_StockOut_Company">
+    <End Type="MAMDBModel.Company" Role="Company" Multiplicity="0..1" />
+    <End Type="MAMDBModel.StockOut" Role="StockOut" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StockOut">
+        <PropertyRef Name="CompanyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="CSQuotation">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="QuotationId" Type="Int32" />
+    <Property Name="TotalPrice" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="PurchTables" Relationship="MAMDBModel.FK_PurchTable_CSQuotation" FromRole="CSQuotation" ToRole="PurchTable" />
+    <NavigationProperty Name="Quotation" Relationship="MAMDBModel.FK_CSQuotation_Quotation" FromRole="CSQuotation" ToRole="Quotation" />
+  </EntityType>
+  <EntityType Name="Inventory">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CompanyId" Type="Int32" />
+    <Property Name="RequisitionId" Type="Int32" />
+    <Property Name="CategoryId" Type="Int32" />
+    <Property Name="PurchId" Type="Int32" />
+    <Property Name="ItemCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ItemName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Brand" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="InQty" Type="Int32" />
+    <Property Name="OutQty" Type="Int32" />
+    <Property Name="AvailableQty" Type="Int32" />
+    <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="TotalPrice" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="InDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Category" Relationship="MAMDBModel.FK_Inventory_Category" FromRole="Inventory" ToRole="Category" />
+    <NavigationProperty Name="Company" Relationship="MAMDBModel.FK_Inventory_Company" FromRole="Inventory" ToRole="Company" />
+    <NavigationProperty Name="StockOuts" Relationship="MAMDBModel.FK_StockOut_Inventory" FromRole="Inventory" ToRole="StockOut" />
+    <NavigationProperty Name="RequisitionInfo" Relationship="MAMDBModel.FK_Inventory_RequisitionInfo" FromRole="Inventory" ToRole="RequisitionInfo" />
+  </EntityType>
+  <EntityType Name="Supplier">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Supplier1" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="ContactNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <Association Name="FK_Inventory_Category">
+    <End Type="MAMDBModel.Category" Role="Category" Multiplicity="0..1" />
+    <End Type="MAMDBModel.Inventory" Role="Inventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Inventory">
+        <PropertyRef Name="CategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Inventory_Company">
+    <End Type="MAMDBModel.Company" Role="Company" Multiplicity="0..1" />
+    <End Type="MAMDBModel.Inventory" Role="Inventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Inventory">
+        <PropertyRef Name="CompanyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StockOut_Inventory">
+    <End Type="MAMDBModel.Inventory" Role="Inventory" Multiplicity="0..1" />
+    <End Type="MAMDBModel.StockOut" Role="StockOut" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Inventory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StockOut">
+        <PropertyRef Name="InventoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="RequisitionInfo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CompanyId" Type="Int32" />
+    <Property Name="DivisionId" Type="Int32" />
+    <Property Name="SectionId" Type="Int32" />
+    <Property Name="CategoryId" Type="Int32" />
+    <Property Name="FloorName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="ItemName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="RequisitionNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RequisitionPurpose" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ProductHistory" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="ReqQty" Type="Int32" />
+    <Property Name="ReqDate" Type="DateTime" Precision="3" />
+    <Property Name="QuotationImage" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Category" Relationship="MAMDBModel.FK_RequisitionInfo_Category" FromRole="RequisitionInfo" ToRole="Category" />
+    <NavigationProperty Name="Company" Relationship="MAMDBModel.FK_RequisitionInfo_Company" FromRole="RequisitionInfo" ToRole="Company" />
+    <NavigationProperty Name="Division" Relationship="MAMDBModel.FK_RequisitionInfo_Division" FromRole="RequisitionInfo" ToRole="Division" />
+    <NavigationProperty Name="Inventories" Relationship="MAMDBModel.FK_Inventory_RequisitionInfo" FromRole="RequisitionInfo" ToRole="Inventory" />
+    <NavigationProperty Name="Section" Relationship="MAMDBModel.FK_RequisitionInfo_Section" FromRole="RequisitionInfo" ToRole="Section" />
+    <Property Name="AssignedUserId" Type="Int32" />
+  </EntityType>
+  <Association Name="FK_RequisitionInfo_Category">
+    <End Type="MAMDBModel.Category" Role="Category" Multiplicity="0..1" />
+    <End Type="MAMDBModel.RequisitionInfo" Role="RequisitionInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RequisitionInfo">
+        <PropertyRef Name="CategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RequisitionInfo_Company">
+    <End Type="MAMDBModel.Company" Role="Company" Multiplicity="0..1" />
+    <End Type="MAMDBModel.RequisitionInfo" Role="RequisitionInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RequisitionInfo">
+        <PropertyRef Name="CompanyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RequisitionInfo_Division">
+    <End Type="MAMDBModel.Division" Role="Division" Multiplicity="0..1" />
+    <End Type="MAMDBModel.RequisitionInfo" Role="RequisitionInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Division">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RequisitionInfo">
+        <PropertyRef Name="DivisionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Inventory_RequisitionInfo">
+    <End Type="MAMDBModel.RequisitionInfo" Role="RequisitionInfo" Multiplicity="0..1" />
+    <End Type="MAMDBModel.Inventory" Role="Inventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RequisitionInfo">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Inventory">
+        <PropertyRef Name="RequisitionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RequisitionInfo_Section">
+    <End Type="MAMDBModel.Section" Role="Section" Multiplicity="0..1" />
+    <End Type="MAMDBModel.RequisitionInfo" Role="RequisitionInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Section">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RequisitionInfo">
+        <PropertyRef Name="SectionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="AssignedUser">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CardNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="CompanyId" Type="Int32" />
+    <Property Name="DivisionId" Type="Int32" />
+    <Property Name="SectionId" Type="Int32" />
+    <Property Name="Designation" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="AssignedUser1" Relationship="MAMDBModel.FK_AssignedUser_AssignedUser" FromRole="AssignedUser" ToRole="AssignedUser1" />
+    <NavigationProperty Name="AssignedUser2" Relationship="MAMDBModel.FK_AssignedUser_AssignedUser" FromRole="AssignedUser1" ToRole="AssignedUser" />
+    <NavigationProperty Name="Company" Relationship="MAMDBModel.FK_AssignedUser_Company" FromRole="AssignedUser" ToRole="Company" />
+    <NavigationProperty Name="Division" Relationship="MAMDBModel.FK_AssignedUser_Division" FromRole="AssignedUser" ToRole="Division" />
+    <NavigationProperty Name="Section" Relationship="MAMDBModel.FK_AssignedUser_Section" FromRole="AssignedUser" ToRole="Section" />
+  </EntityType>
+  <Association Name="FK_AssignedUser_AssignedUser">
+    <End Type="MAMDBModel.AssignedUser" Role="AssignedUser" Multiplicity="1" />
+    <End Type="MAMDBModel.AssignedUser" Role="AssignedUser1" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="AssignedUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AssignedUser1">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AssignedUser_Company">
+    <End Type="MAMDBModel.Company" Role="Company" Multiplicity="0..1" />
+    <End Type="MAMDBModel.AssignedUser" Role="AssignedUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AssignedUser">
+        <PropertyRef Name="CompanyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AssignedUser_Division">
+    <End Type="MAMDBModel.Division" Role="Division" Multiplicity="0..1" />
+    <End Type="MAMDBModel.AssignedUser" Role="AssignedUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Division">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AssignedUser">
+        <PropertyRef Name="DivisionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AssignedUser_Section">
+    <End Type="MAMDBModel.Section" Role="Section" Multiplicity="0..1" />
+    <End Type="MAMDBModel.AssignedUser" Role="AssignedUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Section">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AssignedUser">
+        <PropertyRef Name="SectionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="PurchInvoice">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PurchId" Type="Int32" />
+    <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="InvDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="PurchInvoice1" Relationship="MAMDBModel.FK_PurchInvoice_PurchInvoice" FromRole="PurchInvoice" ToRole="PurchInvoice1" />
+    <NavigationProperty Name="PurchInvoice2" Relationship="MAMDBModel.FK_PurchInvoice_PurchInvoice" FromRole="PurchInvoice1" ToRole="PurchInvoice" />
+  </EntityType>
+  <EntityType Name="PurchTable">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RequisitionId" Type="Int32" />
+    <Property Name="CSQuotationId" Type="Int32" />
+    <Property Name="PurchDate" Type="DateTime" Precision="3" />
+    <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="CSQuotation" Relationship="MAMDBModel.FK_PurchTable_CSQuotation" FromRole="PurchTable" ToRole="CSQuotation" />
+  </EntityType>
+  <Association Name="FK_PurchTable_CSQuotation">
+    <End Type="MAMDBModel.CSQuotation" Role="CSQuotation" Multiplicity="0..1" />
+    <End Type="MAMDBModel.PurchTable" Role="PurchTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CSQuotation">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PurchTable">
+        <PropertyRef Name="CSQuotationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PurchInvoice_PurchInvoice">
+    <End Type="MAMDBModel.PurchInvoice" Role="PurchInvoice" Multiplicity="0..1" />
+    <End Type="MAMDBModel.PurchInvoice" Role="PurchInvoice1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PurchInvoice">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PurchInvoice1">
+        <PropertyRef Name="PurchId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Quotation">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SupplierId" Type="Int32" />
+    <Property Name="CategoryId" Type="Int32" />
+    <Property Name="ItemName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Quantity" Type="Int32" />
+    <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="TotalAmount" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="ImageUrl" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Category" Relationship="MAMDBModel.FK_Quotation_Quotation" FromRole="Quotation" ToRole="Category" />
+    <NavigationProperty Name="CSQuotations" Relationship="MAMDBModel.FK_CSQuotation_Quotation" FromRole="Quotation" ToRole="CSQuotation" />
+  </EntityType>
+  <Association Name="FK_Quotation_Quotation">
+    <End Type="MAMDBModel.Category" Role="Category" Multiplicity="0..1" />
+    <End Type="MAMDBModel.Quotation" Role="Quotation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Quotation">
+        <PropertyRef Name="CategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CSQuotation_Quotation">
+    <End Type="MAMDBModel.Quotation" Role="Quotation" Multiplicity="0..1" />
+    <End Type="MAMDBModel.CSQuotation" Role="CSQuotation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Quotation">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CSQuotation">
+        <PropertyRef Name="QuotationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

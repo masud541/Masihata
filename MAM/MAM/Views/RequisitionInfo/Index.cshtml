@@ -1,0 +1,102 @@
+﻿@model IEnumerable<MAM.Models.RequisitionInfo>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Requisition Information</h2>
+<hr />
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th style="width:15%">
+            Company
+        </th>
+        <th style="width:5%">
+            Division
+        </th>
+        <th style="width:5%">
+            Section
+        </th>
+        <th style="width:5%">
+            Floor
+        </th>
+        <th style="width:5%">
+            Category
+        </th>
+        <th style="width:10%">
+            Item
+        </th>
+        <th style="width:5%">
+            Requisition No
+        </th>
+        <th style="width:15%">
+            Purpose
+        </th>
+        <th style="width:20%">
+            Product History
+        </th>
+        <th style="width:5%">
+            Req. Qty
+        </th>
+        <th style="width:5%">
+            Image
+        </th>
+
+        <th style="width:5%">Action</th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.CompanyName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DivisionName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.SectionName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.FloorName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CategoryName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ItemName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.RequisitionNo)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.RequisitionPurpose)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ProductHistory)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ReqQty)
+    </td>
+    <td>
+        @{
+            if (item.QuotationImage != null)
+            {
+                string imageBase64 = Convert.ToBase64String(item.QuotationImage);
+                string imageSrc = string.Format("data:image/gif;base64,{0}", imageBase64);
+                <img src="@imageSrc" width="100" height="100" />
+            }
+        }
+    </td>
+
+
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |      
+        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+    </td>
+</tr>
+}
+
+</table>

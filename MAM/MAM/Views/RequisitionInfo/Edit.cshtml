@@ -1,0 +1,204 @@
+﻿@model MAM.Models.RequisitionInfo
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<link rel="shortcut icon" href="https://www.thecodedeveloper.com/demo/images/favicon.ico" type="image/x-icon">
+<link rel="icon" href="https://www.thecodedeveloper.com/demo/images/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="~/Scripts/jquery.min.js"></script>
+
+<h2>Update Rquisition</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CompanyId, "CompanyId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (ViewBag.CompanyName != null)
+                {
+                    @Html.DropDownListFor(model => model.CompanyId, (IEnumerable<SelectListItem>)ViewBag.CompanyName, "--Select Company --", new { @class = "form-control" })
+
+                }
+                @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DivisionId, "DivisionId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (ViewBag.divisionNames != null)
+                {
+                    @Html.DropDownListFor(model => model.DivisionId, (IEnumerable<SelectListItem>)ViewBag.divisionNames, "--Select Division --", new { @class = "form-control", @id = "ddlDivision" })
+
+                }
+                @Html.ValidationMessageFor(model => model.DivisionId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SectionId, "SectionId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (ViewBag.SectionName != null)
+                {
+                    @Html.DropDownListFor(x => x.SectionId, (IEnumerable<SelectListItem>)ViewBag.SectionName, "--Select--", new { @class = "form-control", @id = "ddlSection" });
+                }
+                @Html.ValidationMessageFor(model => model.SectionId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CategoryId, "CategoryId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (ViewBag.CategoryName != null)
+                {
+                    @Html.DropDownListFor(model => model.CategoryId, (IEnumerable<SelectListItem>)ViewBag.CategoryName, "--Select Category --", new { @class = "form-control" })
+
+                }
+                @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FloorName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (ViewBag.FloorList != null)
+                {
+                    @Html.DropDownListFor(model => model.FloorName, (IEnumerable<SelectListItem>)ViewBag.FloorList, "--Select Floor --", new { @class = "form-control" })
+
+                }
+                @Html.ValidationMessageFor(model => model.FloorName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ItemName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ItemName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ItemName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RequisitionNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RequisitionNo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RequisitionNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RequisitionPurpose, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RequisitionPurpose, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RequisitionPurpose, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProductHistory, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ProductHistory, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ProductHistory, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReqQty, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ReqQty, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ReqQty, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReqDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ReqDate, new { htmlAttributes = new { @class = "form-control datetimepicker3", @readonly = true } })
+                @Html.ValidationMessageFor(model => model.ReqDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.QuotationImage, "Image", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" id="qImage" name="qImage" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2">
+
+            </div>
+            <div class="col-md-5">
+                @{
+                    if (Model.QuotationImage != null)
+                    {
+                        string imageBase64 = Convert.ToBase64String(Model.QuotationImage);
+                        string imageSrc = string.Format("data:image/gif;base64,{0}", imageBase64);
+                        <img src="@imageSrc" width="100" height="100" />
+                    }
+                }
+            </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="~/Content/jquery.datetimepicker.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.datetimepicker.js"></script>
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.datetimepicker3').datetimepicker({
+            format: 'Y-m-d',
+            timepicker: false
+        });
+    });
+</script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#ddlDivision').change(function () {
+            alert('ok');
+            $.ajax({
+                type: "post",
+                url: "/RequisitionInfo/GetSectionsByDivisionId",
+                data: { divId: $('#ddlDivision').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    var section = "<select id='SectionId' name='SectionId' class = 'form-control'>";
+                    section = section + '<option value="">--Select--</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        section = section + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    section = section + '</select>';
+                    $('#Section').html(section);
+                }
+            });
+        });
+    });
+</script>
